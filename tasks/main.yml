@@ -1,0 +1,6 @@
+---
+# tasks file for InfluxDB
+- name: Update Repositories
+  become: yes
+  apt:
+    update_cache: yes

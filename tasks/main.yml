@@ -4,3 +4,23 @@
   become: yes
   apt:
     update_cache: yes
+
+- name: Download and install influx-db key
+  become: yes
+  shell: wget -qO - https://repos.influxdata.com/influxdb.key | apt-key add -
+
+- name: Source /etc/lsb-release
+  become: yes
+  shell: "source /etc/lsb-release"
+  args:
+     executable: /bin/bash
+
+- name: Add Influx-DB repository
+  become: yes
+  shell:  echo "deb https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" | tee /etc/apt/sources.list.d/influxdb.list
+
+- name: Update the repositories and install the influxdb package
+  become: yes
+  apt:
+    name: influxdb
+    update_cache: yes
